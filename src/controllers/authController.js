@@ -1,5 +1,10 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+require('dotenv').config
+
+const SECRET = process.env.SECRET;
 
 module.exports = {
     async store(req, res) {
@@ -37,6 +42,11 @@ module.exports = {
         if(!await bcrypt.compare(password, user.password))
             return res.status(400).send({ msg: "Invalid password." })
 
+        user.password = undefined;
+
+        const token = jwt.sign({ id: user.id }, SECRET, {
+            expiresIn: 86500
+        })
         return res.send({ user })
     }
 }
