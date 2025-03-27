@@ -1,7 +1,7 @@
 const routes = require('express').Router();
-const authController = require('./controllers/authController');
-const projectController = require('./controllers/projectController');
-const authMiddleware = require('./middlewares/auth');
+const authController = require('./app/controllers/authController');
+const projectController = require('./app/controllers/projectController');
+const authMiddleware = require('./app/middlewares/auth');
 
 routes.post("/register", authController.store)
 routes.post("/authenticate", authController.authentication)
