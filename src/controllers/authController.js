@@ -1,10 +1,14 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const authConfig = require('../config/auth.json')
 
-require('dotenv').config
 
-const SECRET = process.env.SECRET;
+function generateToken(params = {}){
+    return jwt.sign( params, authConfig.secret, {
+        expiresIn: 86500
+    });
+}
 
 module.exports = {
     async store(req, res) {
@@ -24,7 +28,11 @@ module.exports = {
             const user = await User.create(data);
             user.password = undefined;
 
-            return res.status(201).json({user, msg: "User created successfully"});
+            return res.status(201).json({
+                user, 
+                token: generateToken({ id: user.id}),
+                msg: "User created successfully"
+            });
 
         } catch (error) {
             return res.status(500).send({error: "Registration failed"})
@@ -44,9 +52,7 @@ module.exports = {
 
         user.password = undefined;
 
-        const token = jwt.sign({ id: user.id }, SECRET, {
-            expiresIn: 86500
-        })
-        return res.send({ user })
+        const token = generateToken({ id: user.id });
+        return res.send({ user, token })
     }
 }

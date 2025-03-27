@@ -1,9 +1,6 @@
-const express = require('express')
 
-const routes = express.Router();
-
-routes.get("/", (req, res) => {
-    return res.send({ok: true})
-})
-
-module.exports = app => app.use("/project", routes)
+module.exports = {
+    async projetos(req, res){
+        return res.send({ ok: true, user: req.userId});
+    }
+}
