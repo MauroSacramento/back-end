@@ -7,7 +7,7 @@ const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD);
 async function main() {
 
     try {
-        await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.tsfby.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+        await mongoose.connect(`mongodb+srv://maurosacramento35:Kx1O4ClzXoGFwHav@cluster0.tsfby.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
 
         console.log("Connectado ao banco de dados");
     } catch (err) {
